@@ -36,6 +36,7 @@ function ViewNotes({ navigation }) {
               description={item.noteValue}
               descriptionNumberOfLines={1}
               titleStyle={styles.listTitle}
+              style={styles.card}
             />
             </TouchableOpacity>
           )}
@@ -81,7 +82,13 @@ const styles = StyleSheet.create({
     bottom: 10
   },
   listTitle: {
-    fontSize: 20
+    fontSize: 20,
+  },
+  card:{
+    backgroundColor:'white',
+    borderColor:'grey',
+    borderRightColor:'blue'
+
   }
 })
 
