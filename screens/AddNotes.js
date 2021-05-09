@@ -1,35 +1,50 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { IconButton, TextInput, FAB } from 'react-native-paper'
+import { TextInput, FAB } from 'react-native-paper'
 import Header from '../components/Header'
+import { UserContext } from '../contexts/UserContext'
+import NoteService from '../hooks/useAllCommon'
+export function AddNotes({navigation,props}) {
+  const { token } = React.useContext(UserContext);
 
-function AddNotes({navigation}) {
     const [noteTitle, setNoteTitle] = useState('')
     const [noteValue, setNoteValue] = useState('')
+    
     function onSaveNote() {
-        navigation.state.params.addNote({ noteTitle, noteValue })
+        addNote()
         navigation.goBack()
       }
+      const addNote = () => {
+        const payload = {
+          title: noteTitle,
+          description: noteValue
+        }
+        NoteService.createAdd(`/api/api/v1/note/`,token,payload)
+        .then(response => {
+
+          console.log(response.data);
+         
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+    }
+
+
     return (
         <>
-                 <Header titleText='Add a new note' />
-      <IconButton
-        icon='close'
-        size={25}
-        color='white'
-        onPress={() => navigation.goBack()}
-        style={styles.iconButton}
-      />
+        <Header titleText='Add a new note'  iconButton="close-circle-outline" onPress={()=>{navigation.pop()}}/>
       <View style={styles.container}>
         <TextInput
-          label='Add Title Here'
+          label='Add Note Title'
           value={noteTitle}
           mode='outlined'
           onChangeText={setNoteTitle}
           style={styles.title}
         />
         <TextInput
-          label='Add Note Here'
+          label='Add Note Description'
           value={noteValue}
           onChangeText={setNoteValue}
           mode='flat'
@@ -44,7 +59,7 @@ function AddNotes({navigation}) {
           small
           icon='check'
           disabled={noteTitle == '' ? true : false}
-          onPress={() => onSaveNote()}
+          onPress={() => {onSaveNote()}}
         />
       </View>            
        </>
@@ -82,4 +97,3 @@ const styles = StyleSheet.create({
     }
   })
 
-export default AddNotes
