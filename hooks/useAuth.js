@@ -51,10 +51,10 @@ export function useAuth() {
             token: data.token,
           };
           if (Platform.OS != 'android') {
-            ToastAndroid.show(data.message, ToastAndroid.SHORT);
+            ToastAndroid.show("Login Successfully", ToastAndroid.SHORT);
 
           } else {
-            ToastAndroid.show(data.message, ToastAndroid.SHORT);
+            ToastAndroid.show("Login Successfully", ToastAndroid.SHORT);
           }
 
           await AsyncStorage.setItem('user', JSON.stringify(user));
@@ -81,14 +81,19 @@ export function useAuth() {
         await AsyncStorage.removeItem('user');
         dispatch(createAction('REMOVE_USER'));
       },
-      register: async (emailId, userName, password, phNumber) => {
+      register: async (emailId, userName, password) => {
         await sleep(2000);
-        await axios.post(`${BASE_URL}/user/adduser`, {
-          emailId: emailId,
+        await axios.post(`${BASE_URL}/api/auth/register/`, {
+          email: emailId,
           password: password,
-          phNumber, phNumber,
-          userName: userName
+          username: userName
         });
+        if (Platform.OS != 'android') {
+          ToastAndroid.show("Register Successfully", ToastAndroid.SHORT);
+
+        } else {
+          ToastAndroid.show("Register Successfully", ToastAndroid.SHORT);
+        }
       },
     }),
     [],

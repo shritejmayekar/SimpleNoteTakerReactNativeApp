@@ -20,11 +20,15 @@ export function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      
+       
       <Image style={styles.image} source = {require("../assets/icon.png")}/>
       <View style={{alignItems: "center"}}>
-             <Text>Note Taking App By Shritej</Text>
+             <Text style={{fontWeight: "bold",color: "#E15D03"}}>Note Taking App By Shritej</Text>
       </View>
+      <View style={{alignItems: "center",marginTop:20}}>
+             <Text style={{fontSize:28,fontWeight: "bold",color:"#ca5302"}}>Login</Text>
+      </View>
+      
       <View style={{alignItems: "center"}}>
               <Error error={error} />
       </View>
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    marginBottom: 40,
+    marginBottom: 5,
     width:100, height:100
   },
   inputView: {

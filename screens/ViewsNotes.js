@@ -77,8 +77,8 @@ export function ViewNotes({ navigation }) {
                         createTwoButtonAlert(note.id)
                     }
                 }
-                    style={[{ backgroundColor: '#dcb7fb', borderRadius: 10, width: 50, height: 50, alignItems: 'center' }]}>
-                    <Image source={require('../assets/trash.png')} style={{ width: 30, height: 30, margin: 5 }} />
+                    style={[{ backgroundColor: '#60DBC5', borderRadius: 10, width: 30, height: 30, alignItems: 'center' }]}>
+                    <Image source={require('../assets/trash.png')} style={{ width: 20, height: 20, margin: 5 }} />
 
                 </TouchableOpacity>
       </View>
