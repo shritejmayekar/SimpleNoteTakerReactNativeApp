@@ -31,6 +31,15 @@ const createAdd = (endpoint,token, data) => {
   });
 };
 
+const update = (endpoint,token, data) => {
+  return axios.patch(`${BASE_URL}${endpoint}`,data,{
+    headers: {
+      authorization: 'Token ' + token
+    }
+  });
+};
+
+
 
 const removeData = (endpoint, token) => {
   return axios.delete(`${BASE_URL}${endpoint}`, {
@@ -55,6 +64,7 @@ export default {
   create,
   createAdd,
   removeAll,
-  removeData
+  removeData,
+  update
 };
 

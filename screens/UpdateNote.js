@@ -1,37 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { View, StyleSheet,ToastAndroid,Platform } from 'react-native'
 import { TextInput, FAB } from 'react-native-paper'
 import Header from '../components/Header'
 import { Loading } from '../components/Loading'
 import { UserContext } from '../contexts/UserContext'
 import NoteService from '../hooks/useAllCommon'
-export function AddNotes({navigation,props}) {
+export function UpdateNote({route,navigation}) {
   const { token } = React.useContext(UserContext);
 
     const [noteTitle, setNoteTitle] = useState('')
     const [noteValue, setNoteValue] = useState('')
     const [loading, setLoading] = React.useState(false);
-
-    
-    function onSaveNote() {
+    const {noteId} = route.params
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          retrieveNotes();
+        });
+        return unsubscribe;
+      }, [navigation]);
+      const retrieveNotes = () => {
         setLoading(true);
-        addNote()
+        NoteService.getAll(`/api/api/v1/note/${noteId}/`, token)
+          .then(response => {
+            console.log(response.data);
+            setNoteValue(response.data.description);
+            setNoteTitle(response.data.title);
+            setLoading(false);
+          })
+          .catch(e => {
+            console.log(e);
+            setLoading(false);
+          });
+      };
+    function onUpdateNote() {
+        setLoading(true);
+        updateNote()
       }
-      const addNote = () => {
+      const updateNote = () => {
         const payload = {
           title: noteTitle,
           description: noteValue
         }
-        NoteService.createAdd(`/api/api/v1/note/`,token,payload)
+        NoteService.update(`/api/api/v1/note/${noteId}/`,token,payload)
         .then(response => {
           
           console.log(response.data);
           setLoading(false);
           if (Platform.OS != 'android') {
-            ToastAndroid.show("Note Added Successfully", ToastAndroid.SHORT);
+            ToastAndroid.show("Note Updated Successfully", ToastAndroid.SHORT);
   
           } else {
-            ToastAndroid.show("Note Added Successfully", ToastAndroid.SHORT);
+            ToastAndroid.show("Note Updated Successfully", ToastAndroid.SHORT);
           }
           navigation.goBack()
 
@@ -53,7 +72,7 @@ export function AddNotes({navigation,props}) {
 
     return (
         <>
-        <Header titleText='Add a new note'  iconButton="close-circle-outline" onPress={()=>{navigation.pop()}}/>
+        <Header titleText='Update a new note'  iconButton="close-circle-outline" onPress={()=>{navigation.pop()}}/>
       <View style={styles.container}>
         <TextInput
           label='Add Note Title'
@@ -80,7 +99,7 @@ export function AddNotes({navigation,props}) {
           small
           icon='check'
           disabled={noteTitle == '' || noteValue == '' ? true : false}
-          onPress={() => {onSaveNote()}}
+          onPress={() => {onUpdateNote()}}
         />
       </View>            
        </>

@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AddNotes } from '../screens/AddNotes';
 import { ViewNotes } from '../screens/ViewsNotes';
+import { UpdateNote } from '../screens/UpdateNote';
 
 const MainStack = createStackNavigator();
 
@@ -9,7 +10,7 @@ export function MainStackNavigator() {
   return (
 
     <MainStack.Navigator>
-     
+
 
       <MainStack.Screen
 
@@ -24,7 +25,7 @@ export function MainStackNavigator() {
         }
       />
 
-  <MainStack.Screen
+      <MainStack.Screen
 
         name={'AddNotes'}
         component={AddNotes}
@@ -35,8 +36,19 @@ export function MainStackNavigator() {
         }
 
         }
-      /> 
+      />
+      <MainStack.Screen
 
+        name={'UpdateNote'}
+        component={UpdateNote}
+        options={{
+          title: 'UpdateNote',
+          headerShown: false,
+
+        }
+
+        }
+      />
 
     </MainStack.Navigator>
 
